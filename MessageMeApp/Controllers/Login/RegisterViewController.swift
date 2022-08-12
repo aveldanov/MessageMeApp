@@ -14,9 +14,9 @@ class RegisterViewController: UIViewController {
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "messageLogo")
+        imageView.image = UIImage(systemName: "person")
+        imageView.tintColor = .gray
         imageView.contentMode = .scaleAspectFit
-
         return imageView
     }()
 
@@ -122,6 +122,12 @@ class RegisterViewController: UIViewController {
         scrollView.addSubview(emailField)
         scrollView.addSubview(passwordField)
         scrollView.addSubview(registerButton)
+
+        imageView.isUserInteractionEnabled = true
+        scrollView.isUserInteractionEnabled = true
+
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didChangeProfilePicture))
+        imageView.addGestureRecognizer(gesture)
     }
 
     override func viewDidLayoutSubviews() {
@@ -136,14 +142,14 @@ class RegisterViewController: UIViewController {
                                  height: size)
 
         firstNameField.frame = CGRect(x: 30,
-                                  y: imageView.bottom+10,
-                                  width: scrollView.width-60,
-                                  height: 52)
+                                      y: imageView.bottom+10,
+                                      width: scrollView.width-60,
+                                      height: 52)
 
         lastNameField.frame = CGRect(x: 30,
-                                  y: firstNameField.bottom+10,
-                                  width: scrollView.width-60,
-                                  height: 52)
+                                     y: firstNameField.bottom+10,
+                                     width: scrollView.width-60,
+                                     height: 52)
 
         emailField.frame = CGRect(x: 30,
                                   y: lastNameField.bottom+10,
@@ -156,9 +162,9 @@ class RegisterViewController: UIViewController {
                                      height: 52)
 
         registerButton.frame = CGRect(x: 30,
-                                   y: passwordField.bottom+10,
-                                   width: scrollView.width-60,
-                                   height: 52)
+                                      y: passwordField.bottom+10,
+                                      width: scrollView.width-60,
+                                      height: 52)
     }
 
 
@@ -169,11 +175,21 @@ class RegisterViewController: UIViewController {
         // get rid of keyboard
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
+        firstNameField.resignFirstResponder()
+        lastNameField.resignFirstResponder()
 
-        guard let email = emailField.text, let password = passwordField.text, !email.isEmpty, !password.isEmpty, password.count >= 6 else {
-            alertUserLoginError()
-            return
-        }
+        guard let firstName = firstNameField.text,
+              let lastName = lastNameField.text,
+              let email = emailField.text,
+              let password = passwordField.text,
+              !firstName.isEmpty,
+              !lastName.isEmpty,
+              !email.isEmpty,
+              !password.isEmpty,
+              password.count >= 6 else {
+                  alertUserLoginError()
+                  return
+              }
 
         // Firebase login
     }
@@ -195,22 +211,23 @@ class RegisterViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+
+    @objc private func didChangeProfilePicture() {
+        print("Changed tapped")
+    }
+
 }
 
 
 
 extension RegisterViewController: UITextFieldDelegate {
 
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
         if textField == emailField {
             passwordField.becomeFirstResponder()
-
         } else if textField == passwordField {
             didTapLoginButton()
         }
-
         return true
     }
 
