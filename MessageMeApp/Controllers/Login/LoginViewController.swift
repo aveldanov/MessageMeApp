@@ -79,6 +79,11 @@ class LoginViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapRegister))
 
+        loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+
+        emailField.delegate = self
+        passwordField.delegate = self
+
         view.addSubview(scrollView)
         scrollView.addSubview(imageView)
         scrollView.addSubview(emailField)
@@ -116,7 +121,12 @@ class LoginViewController: UIViewController {
 
     // MARK: - Helpers
 
-    private func loginButtonTapped() {
+    @objc private func didTapLoginButton() {
+
+        // get rid of keyboard
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+
         guard let email = emailField.text, let password = passwordField.text, !email.isEmpty, !password.isEmpty, password.count >= 6 else {
             alertUserLoginError()
             return
@@ -140,6 +150,25 @@ class LoginViewController: UIViewController {
         let vc = RegisterViewController()
         vc.title = "Create Account"
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+}
+
+
+
+extension LoginViewController: UITextFieldDelegate {
+
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
+        if textField == emailField {
+            passwordField.becomeFirstResponder()
+
+        } else if textField == passwordField {
+            didTapLoginButton()
+        }
+
+        return true
     }
 
 }
