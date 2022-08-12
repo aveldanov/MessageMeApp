@@ -213,12 +213,13 @@ class RegisterViewController: UIViewController {
 
 
     @objc private func didChangeProfilePicture() {
-        print("Changed tapped")
+        presentPhotoActionSheet()
     }
 
 }
 
 
+// MARK: - UITextFieldDelegate
 
 extension RegisterViewController: UITextFieldDelegate {
 
@@ -230,5 +231,59 @@ extension RegisterViewController: UITextFieldDelegate {
         }
         return true
     }
+}
+
+
+extension RegisterViewController: UIImagePickerControllerDelegate {
+
+    func presentPhotoActionSheet() {
+        let actionSheet = UIAlertController(title: "Profile Picture",
+                                            message: "Please take or select a picture",
+                                            preferredStyle: .actionSheet)
+
+        actionSheet.addAction(UIAlertAction(title: "Cancel",
+                                            style: .cancel,
+                                            handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take Photo",
+                                            style: .default,
+                                            handler: { [weak self] _ in
+
+            self?.presentCamera()
+
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose Photo",
+                                            style: .default,
+                                            handler:{ [weak self] _ in
+            self?.presentPhotoPicker()
+        }))
+
+
+        present(actionSheet, animated: true, completion: nil)
+    }
+
+    func presentCamera() {
+
+
+
+    }
+
+    func presentPhotoPicker() {
+
+
+
+    }
+
+
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+    }
+
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+
+    }
+
+
 
 }
