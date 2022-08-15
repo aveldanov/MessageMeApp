@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import PhotosUI
+import FirebaseAuth
 
 class RegisterViewController: UIViewController {
 
@@ -114,7 +114,7 @@ class RegisterViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(didTapRegister))
 
-        registerButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
 
         emailField.delegate = self
         passwordField.delegate = self
@@ -175,7 +175,7 @@ class RegisterViewController: UIViewController {
 
     // MARK: - Helpers
 
-    @objc private func didTapLoginButton() {
+    @objc private func didTapRegisterButton() {
 
         // get rid of keyboard
         emailField.resignFirstResponder()
@@ -197,6 +197,18 @@ class RegisterViewController: UIViewController {
               }
 
         // Firebase login
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+
+            guard let result = authResult, error == nil else {
+                print("Error creating user", error?.localizedDescription)
+                return
+            }
+
+            let user = result.user
+            print("USER: ", user)
+            
+        }
+
     }
 
     func alertUserLoginError() {
@@ -232,7 +244,7 @@ extension RegisterViewController: UITextFieldDelegate {
         if textField == emailField {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField {
-            didTapLoginButton()
+            didTapRegisterButton()
         }
         return true
     }
