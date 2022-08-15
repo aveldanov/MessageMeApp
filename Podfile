@@ -7,4 +7,8 @@ target 'MessageMeApp' do
 
   # Pods for MessageMeApp
 
+pod 'FirebaseCore'
+pod 'FirebaseAuth'
+pod 'FirebaseDatabase'
+
 end
