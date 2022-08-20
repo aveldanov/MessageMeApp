@@ -137,12 +137,12 @@ class LoginViewController: UIViewController {
 
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let strongSelf = self else{
+                self?.alertUserLoginError(message: "")
                 return
             }
 
 
             guard let result = authResult, error == nil else {
-                print("Error logging in the user", error?.localizedDescription)
                 return
             }
 
@@ -155,8 +155,8 @@ class LoginViewController: UIViewController {
         }
     }
 
-    func alertUserLoginError() {
-        let alert = UIAlertController(title: "Oops", message: "Please enter all fields", preferredStyle: .alert)
+    func alertUserLoginError(message: String = "Please fill in all fields") {
+        let alert = UIAlertController(title: "Oops", message: message, preferredStyle: .alert)
 
         let alertAction = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
         alert.addAction(alertAction)
@@ -166,7 +166,6 @@ class LoginViewController: UIViewController {
     
 
     @objc private func didTapRegister() {
-
         let vc = RegisterViewController()
         vc.title = "Create Account"
         navigationController?.pushViewController(vc, animated: true)
