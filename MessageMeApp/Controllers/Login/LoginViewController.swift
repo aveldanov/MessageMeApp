@@ -68,7 +68,6 @@ class LoginViewController: UIViewController {
         return button
     }()
 
-
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -140,7 +139,6 @@ class LoginViewController: UIViewController {
                 return
             }
 
-
             guard let result = authResult, error == nil else {
                 return
             }
@@ -148,9 +146,7 @@ class LoginViewController: UIViewController {
             let user = result.user
 
             print("User logged in", user)
-
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
-            
         }
     }
 
@@ -165,7 +161,6 @@ class LoginViewController: UIViewController {
     
 
     @objc private func didTapRegister() {
-        print("TAPPED")
         let vc = RegisterViewController()
         vc.title = "Create Account"
         navigationController?.pushViewController(vc, animated: true)

@@ -201,9 +201,10 @@ class RegisterViewController: UIViewController {
             }
             guard exists else {
                 // user already exists
-                strongSelf.alertUserLoginError(message: "User with this email already exists ")
+                strongSelf.alertUserLoginError(message: "User with this email already exists!!!")
                 return
             }
+            
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
 
                 guard authResult != nil, error == nil else {
@@ -213,7 +214,6 @@ class RegisterViewController: UIViewController {
                 DataBaseManager.shared.insertUser(with: MessageMeAppUser(firstName: firstName,
                                                                          lastName: lastName,
                                                                          email: email))
-
 
                 strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
