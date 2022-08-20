@@ -109,10 +109,6 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         title = "Log In"
         view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
-                                                            style: .done,
-                                                            target: self,
-                                                            action: #selector(didTapRegister))
 
         registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
 
@@ -236,14 +232,6 @@ class RegisterViewController: UIViewController {
         alert.addAction(alertAction)
         present(alert, animated: true, completion: nil)
 
-    }
-
-
-    @objc private func didTapRegister() {
-
-        let vc = RegisterViewController()
-        vc.title = "Create Account"
-        navigationController?.pushViewController(vc, animated: true)
     }
 
 
