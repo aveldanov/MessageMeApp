@@ -197,20 +197,34 @@ class RegisterViewController: UIViewController {
               }
 
         // Firebase register
-        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
-            guard let strongSelf = self else{
+
+
+        DataBaseManager.shared.userExists(with: email) { exists in
+            guard exists else {
+                // user already exists
                 return
             }
+            FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
+                guard let strongSelf = self else{
+                    return
+                }
 
-            guard let result = authResult, error == nil else {
-                print("Error creating user", error?.localizedDescription)
-                return
+                guard authResult != nil, error == nil else {
+                    print("Error creating user", error?.localizedDescription)
+                    return
+                }
+
+                DataBaseManager.shared.insertUser(with: MessageMeAppUser(firstName: firstName,
+                                                                         lastName: lastName,
+                                                                         email: email))
+
+
+                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
 
-            let user = result.user
-            print("USER: ", user)
-            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+
         }
+
 
     }
 
