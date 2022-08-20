@@ -210,7 +210,6 @@ class RegisterViewController: UIViewController {
                     print("Error creating user", error?.localizedDescription)
                     return
                 }
-
                 DataBaseManager.shared.insertUser(with: MessageMeAppUser(firstName: firstName,
                                                                          lastName: lastName,
                                                                          email: email))
@@ -227,7 +226,6 @@ class RegisterViewController: UIViewController {
 
     func alertUserLoginError(message: String = "Please enter all fields") {
         let alert = UIAlertController(title: "Oops", message: message, preferredStyle: .alert)
-
         let alertAction = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
         alert.addAction(alertAction)
         present(alert, animated: true, completion: nil)

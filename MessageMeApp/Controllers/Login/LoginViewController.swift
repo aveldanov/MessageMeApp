@@ -96,7 +96,6 @@ class LoginViewController: UIViewController {
         super.viewDidLayoutSubviews()
         scrollView.frame = view.bounds
 
-
         let size = scrollView.width/3
         imageView.frame = CGRect(x: (scrollView.width-size)/2,
                                  y: 20,
@@ -166,28 +165,22 @@ class LoginViewController: UIViewController {
     
 
     @objc private func didTapRegister() {
+        print("TAPPED")
         let vc = RegisterViewController()
         vc.title = "Create Account"
         navigationController?.pushViewController(vc, animated: true)
     }
-
 }
-
-
 
 extension LoginViewController: UITextFieldDelegate {
 
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
         if textField == emailField {
             passwordField.becomeFirstResponder()
 
         } else if textField == passwordField {
             didTapLoginButton()
         }
-
         return true
     }
-
 }
