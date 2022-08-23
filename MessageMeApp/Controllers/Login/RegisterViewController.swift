@@ -194,17 +194,18 @@ class RegisterViewController: UIViewController {
 
         // Firebase register
 
-
         DataBaseManager.shared.userExists(with: email) { [weak self] exists in
+            print("HUHUHU", exists)
+
             guard let strongSelf = self else{
                 return
             }
-            guard exists else {
+            guard !exists else {
                 // user already exists
                 strongSelf.alertUserLoginError(message: "User with this email already exists!!!")
                 return
             }
-            
+
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
 
                 guard authResult != nil, error == nil else {
